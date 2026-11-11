@@ -20,7 +20,7 @@ model Authcode {
 	expiry DateTime
 }
 
-model Channel {
+model Ping_Channel {
 	id String @id @default(uuid())
 	guild_id String
 	channel_id String
@@ -28,6 +28,15 @@ model Channel {
 
 	@@unique([guild_id, channel_id])
 }
+
+model Sync_Channel {
+	id String @id @default(uuid())
+	guild_id String
+	channel_id String
+
+	@@unique([guild_id, channel_id])
+}
+
 
 model User {
 	id String @id @default(uuid())
