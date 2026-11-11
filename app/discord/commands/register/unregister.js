@@ -24,12 +24,12 @@ export const execute = async (interaction) => {
                 channel_id: channelId
             }
 
-            const channel = await prisma.channel.findUnique({
+            const channel = await prisma.ping_Channel.findUnique({
                 where: { guild_id_channel_id: channel_object }
             });
 
             if (channel) {
-                await prisma.channel.delete({
+                await prisma.ping_Channel.delete({
                     where: { guild_id_channel_id: channel_object }
                 });
                 messageReply.content = "This channel will no longer be set for pings.";

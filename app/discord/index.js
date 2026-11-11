@@ -120,7 +120,7 @@ export const discordSetup = async () => {
 			return;
 		}
 
-		const registered_channels = await prisma.channel.findMany();
+		const registered_channels = await prisma.ping_Channel.findMany();
 		registered_channels.forEach(async (channel_entry) => {
 			const guild = await client.guilds.fetch(channel_entry.guild_id);
 			const roles = await guild.roles.fetch();
@@ -135,7 +135,7 @@ export const discordSetup = async () => {
 			const pingComponent = await buildPingComponent(role.id, await groupShiftByTime(shifts));
 			if (channel_entry.message_id === null) {
 				const newMessage = await channel.send({ components: [pingComponent], flags: MessageFlags.IsComponentsV2 });
-				await prisma.channel.update({
+				await prisma.ping_Channel.update({
 					where: channel_entry,
 					data: { ...channel_entry, message_id: newMessage.id }
 				});
@@ -144,7 +144,7 @@ export const discordSetup = async () => {
 				const postDate = getCurrentTimeZone(new Date(message.createdTimestamp));
 				if (postDate.getDay() !== now.getDay()) {
 					const newMessage = await channel.send({ components: [pingComponent], flags: MessageFlags.IsComponentsV2 });
-					await prisma.channel.update({
+					await prisma.ping_Channel.update({
 						where: channel_entry,
 						data: { ...channel_entry, message_id: newMessage.id }
 					});

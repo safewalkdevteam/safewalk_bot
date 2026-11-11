@@ -24,7 +24,7 @@ export const execute = async (interaction) => {
                 channel_id: channelId
             }
             
-            const channel = await prisma.channel.findUnique({
+            const channel = await prisma.ping_Channel.findUnique({
                 where: { guild_id_channel_id: channel_object }
             });
 
@@ -34,7 +34,7 @@ export const execute = async (interaction) => {
                 return;
             }
 
-            await prisma.channel.create({
+            await prisma.ping_Channel.create({
                 data: channel_object
             });
             
