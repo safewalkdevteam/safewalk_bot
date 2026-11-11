@@ -4,14 +4,21 @@ import { prisma } from "../../../services/db.js"
 export const data = new SlashCommandBuilder().setName("register").setDescription("Set daily shift pings for this server.");
 
 export const execute = async (interaction) => {
-    const channelId = interaction.channelId;
-    const guildId = interaction.guildId;
-    const isAdmin = interaction.member.permissions.has(PermissionsBitField.Flags.Administrator);
-    let userId;
     const messageReply = {
         content: "",
         flags: MessageFlags.Ephemeral
     }
+
+    const channelId = interaction.channelId;
+    const guildId = interaction.guildId;
+    if (!guildId) {
+        messageReply.content = "You cannot run this command in DMs."
+        await interaction.reply(messageReply);
+        return;
+    }
+    
+    const isAdmin = interaction.member.permissions.has(PermissionsBitField.Flags.Administrator);
+    let userId;
     if (interaction instanceof ChatInputCommandInteraction) {
         userId = interaction.user.id;
     } else {
